@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Differentiation & Trig Modelling — A* Flashcards</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-card: #161b22;
+    --bg-card-back: #1c2333;
+    --border: #30363d;
+    --teal: #2dd4bf;
+    --purple: #a78bfa;
+    --text: #e6edf3;
+    --text-dim: #8b949e;
+    --trap: #f97583;
+    --know: #2dd4bf;
+    --review: #f0883e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 16px;
+    padding-bottom: 100px;
+  }
+  h1 {
+    font-size: 19px;
+    text-align: center;
+    margin: 8px 0 4px;
+    background: linear-gradient(90deg, var(--teal), var(--purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .subtitle { text-align: center; color: var(--text-dim); font-size: 13px; margin-bottom: 14px; }
+
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .stats span b { color: var(--text); }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 14px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab {
+    flex: 0 0 auto;
+    padding: 7px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-dim);
+    font-size: 12.5px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .tab.active {
+    border-color: var(--teal);
+    color: var(--teal);
+    background: rgba(45,212,191,0.08);
+  }
+
+  .progress-bar-wrap {
+    height: 5px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 18px;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--purple));
+    transition: width 0.25s;
+  }
+
+  .card-area { display: flex; flex-direction: column; align-items: center; }
+
+  .counter { color: var(--text-dim); font-size: 12.5px; margin-bottom: 10px; }
+
+  .flip-card {
+    width: 100%;
+    max-width: 480px;
+    min-height: 260px;
+    perspective: 1400px;
+    cursor: pointer;
+  }
+  .flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 260px;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+  }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .front {
+    background: var(--bg-card);
+  }
+  .back {
+    background: var(--bg-card-back);
+    transform: rotateY(180deg);
+    overflow-y: auto;
+  }
+  .tag {
+    font-size: 10.5px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 10px;
+  }
+  .q-text { font-size: 16.5px; line-height: 1.5; }
+  .a-text { font-size: 15px; line-height: 1.6; white-space: pre-line; }
+  .trap-box {
+    margin-top: 14px;
+    padding: 10px 12px;
+    border-left: 3px solid var(--trap);
+    background: rgba(249,117,131,0.08);
+    border-radius: 6px;
+    font-size: 12.5px;
+    color: #ffb3ba;
+  }
+  .trap-box b { color: var(--trap); }
+  .hint { text-align: center; color: var(--text-dim); font-size: 11.5px; margin-top: 10px; }
+
+  .controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+    width: 100%;
+    max-width: 480px;
+  }
+  .btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn-review { background: rgba(240,136,62,0.15); color: var(--review); border: 1px solid var(--review); }
+  .btn-know { background: rgba(45,212,191,0.15); color: var(--know); border: 1px solid var(--know); }
+
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 480px;
+    margin-top: 12px;
+  }
+  .nav-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .reset-link {
+    display: block;
+    text-align: center;
+    margin-top: 30px;
+    color: var(--text-dim);
+    font-size: 11.5px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<h1>Differentiation & Trigonometry / Modelling</h1>
+<div class="subtitle">A Level Maths (Edexcel Pure Year 1) — A* Flashcard Deck</div>
+
+<div class="stats">
+  <span>Know: <b id="knowCount">0</b></span>
+  <span>Review: <b id="reviewCount">0</b></span>
+  <span>Unseen: <b id="unseenCount">0</b></span>
+</div>
+
+<div class="tabs" id="tabs"></div>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
+
+<div class="card-area">
+  <div class="counter" id="counter"></div>
+  <div class="flip-card" id="flipCard">
+    <div class="flip-inner" id="flipInner">
+      <div class="face front">
+        <div class="tag" id="frontTag"></div>
+        <div class="q-text" id="frontText"></div>
+        <div class="hint">Tap card to reveal answer</div>
+      </div>
+      <div class="face back">
+        <div class="tag" id="backTag">Answer</div>
+        <div class="a-text" id="backText"></div>
+        <div class="trap-box" id="trapBox" style="display:none;">
+          <b>⚠ Examiner trap:</b> <span id="trapText"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn btn-review" id="btnReview">Needs Review</button>
+    <button class="btn btn-know" id="btnKnow">I Know This</button>
+  </div>
+
+  <div class="nav-row">
+    <button class="nav-btn" id="prevBtn">‹ Prev</button>
+    <button class="nav-btn" id="shuffleBtn">🔀 Shuffle</button>
+    <button class="nav-btn" id="nextBtn">Next ›</button>
+  </div>
+</div>
+
+<div class="reset-link" id="resetLink">Reset all progress</div>
+
+<script>
+const CARDS = [
+  // --- Radians & Trig Basics ---
+  {id:1, section:"Radians & Basics", front:"Convert 150° to radians.", back:"150° × (π/180) = 5π/6 rad", trap:"Always simplify the fraction — 5π/6, not 150π/180."},
+  {id:2, section:"Radians & Basics", front:"State the exact value of sin(π/3).", back:"sin(π/3) = √3/2", trap:"Don't mix up sin(π/3) and cos(π/3) — sketch the 30-60-90 triangle if unsure."},
+  {id:3, section:"Radians & Basics", front:"Arc length formula in radians, and why does it need radians (not degrees)?", back:"s = rθ. This only works if θ is in radians, because the formula is derived directly from the definition of radian measure (arc length = radius when θ = 1 rad).", trap:"Using degrees in s = rθ without converting is one of the most common silent errors on Section A."},
+  {id:4, section:"Radians & Basics", front:"Area of a sector formula (radians).", back:"A = ½r²θ", trap:"Same radian requirement as arc length — check the question hasn't given θ in degrees."},
+  {id:5, section:"Radians & Basics", front:"Small angle approximations: give sinθ, cosθ, tanθ for small θ (radians).", back:"sinθ ≈ θ\ncosθ ≈ 1 − θ²/2\ntanθ ≈ θ", trap:"These ONLY hold for θ in radians and only as θ→0 — never apply to a large angle."},
+
+  // --- Trig Identities ---
+  {id:6, section:"Trig Identities", front:"State the compound angle formula for sin(A ± B).", back:"sin(A ± B) = sinA cosB ± cosA sinB", trap:"Sign matches on the sin expansion but the cos expansion sign flips — students often copy the wrong sign across."},
+  {id:7, section:"Trig Identities", front:"State the compound angle formula for cos(A ± B).", back:"cos(A ± B) = cosA cosB ∓ sinA sinB", trap:"Note the sign flips: cos(A+B) uses MINUS, cos(A−B) uses PLUS. This is the reverse pattern of the sin formula."},
+  {id:8, section:"Trig Identities", front:"Derive sin(2A) from the compound angle formula.", back:"sin(2A) = sin(A+A) = sinA cosA + cosA sinA = 2 sinA cosA", trap:"Students often write sin(2A) = 2sinA (dropping cosA entirely) — always derive, don't just recall."},
+  {id:9, section:"Trig Identities", front:"Give the THREE forms of cos(2A).", back:"cos(2A) = cos²A − sin²A\n= 2cos²A − 1\n= 1 − 2sin²A", trap:"Exam questions often specify which form to use based on context (e.g. 'hence show...') — using the wrong form wastes time even if the answer is mathematically equivalent."},
+  {id:10, section:"Trig Identities", front:"State tan(2A) in terms of tanA.", back:"tan(2A) = 2tanA / (1 − tan²A)", trap:"Denominator is (1 − tan²A), not (1 − tanA)² — easy to mis-square under exam pressure."},
+  {id:11, section:"Trig Identities", front:"Simplify: 2sin(3x)cos(3x)", back:"= sin(6x)  (using sin(2A) = 2sinA cosA with A = 3x)", trap:"Recognising the 2sinAcosA PATTERN with a compound angle inside is a key A* skill — don't just try to expand blindly."},
+
+  // --- R sin(θ+α) & Modelling ---
+  {id:12, section:"R sin(θ+α) & Modelling", front:"Express a sinθ + b cosθ in the form R sin(θ + α). What are R and α in terms of a and b?", back:"R = √(a² + b²)\ntanα = b/a  (with R, α > 0, using the correct quadrant for (a,b))", trap:"You MUST check the quadrant of (a,b) to get the correct α — calculator inverse tan alone can give the wrong angle."},
+  {id:13, section:"R sin(θ+α) & Modelling", front:"Write 3sinθ + 4cosθ in the form R sin(θ+α), giving α to 2 d.p.", back:"R = √(3²+4²) = 5\ntanα = 4/3 → α = 53.13°\nSo 3sinθ + 4cosθ = 5 sin(θ + 53.13°)", trap:"Check by expanding R sin(θ+α) back out with compound angle formula if time allows — a quick self-check catches sign errors."},
+  {id:14, section:"R sin(θ+α) & Modelling", front:"For y = R sin(θ+α), what is the maximum value and at what θ does it occur?", back:"Maximum value = R, occurring when θ + α = 90° (i.e. θ = 90° − α)", trap:"Students forget to subtract α when finding θ — they give the answer as 90° instead of 90°−α."},
+  {id:15, section:"R sin(θ+α) & Modelling", front:"A modelling question gives h(t) = 5 + 3sin(t) + 4cos(t) for tide height. Describe your first step.", back:"Rewrite 3sin(t)+4cos(t) as R sin(t+α) = 5sin(t+53.13°), so h(t) = 5 + 5sin(t+53.13°). This isolates the periodic part and makes max/min/period questions solvable directly.", trap:"Don't forget the '+5' constant term stays outside the R sin(θ+α) — it shifts the whole graph vertically, it's not part of the amplitude."},
+  {id:16, section:"R sin(θ+α) & Modelling", front:"In a modelling context, what does R represent physically, and what does the constant term (if any) represent?", back:"R represents the amplitude of oscillation (half the range of variation). A constant added outside represents the baseline/equilibrium value the quantity oscillates around.", trap:"Exam mark schemes often award a specific mark just for stating what R means 'in context' — don't skip this even if it feels obvious."},
+  {id:17, section:"R sin(θ+α) & Modelling", front:"Solve 5sin(θ+30°) = 3 for 0° ≤ θ < 360°, showing method (don't need full decimal answer).", back:"sin(θ+30°) = 3/5\nθ+30° = sin⁻¹(0.6) = 36.87° or 180−36.87 = 143.13°\nθ+30° = 36.87°, 143.13°, 396.87°, 503.13° (adding 360° for range)\nθ = 6.87°, 113.13°, ...(check range 0≤θ<360)", trap:"Always shift the RANGE first (0+30° ≤ θ+30° < 390°) before solving, or you'll miss solutions at the boundary."},
+
+  // --- Differentiation Rules ---
+  {id:18, section:"Differentiation Rules", front:"State the Chain Rule.", back:"If y = f(g(x)), then dy/dx = f'(g(x)) × g'(x)\n(Differentiate the outer function, keep the inner function unchanged, then multiply by the derivative of the inner function.)", trap:"The most common chain rule error is forgetting to multiply by g'(x) — e.g. differentiating sin(3x) as cos(3x) instead of 3cos(3x)."},
+  {id:19, section:"Differentiation Rules", front:"State the Product Rule.", back:"If y = uv, then dy/dx = u(dv/dx) + v(du/dx)", trap:"Students often confuse this with quotient rule sign — product rule has NO minus sign, it's simply u'v + uv'."},
+  {id:20, section:"Differentiation Rules", front:"State the Quotient Rule.", back:"If y = u/v, then dy/dx = [v(du/dx) − u(dv/dx)] / v²", trap:"Order matters: v·u' MINUS u·v', not the other way round. Also don't forget to square v in the denominator."},
+  {id:21, section:"Differentiation Rules", front:"Differentiate y = (2x+1)⁵ using the chain rule.", back:"dy/dx = 5(2x+1)⁴ × 2 = 10(2x+1)⁴", trap:"Forgetting the ×2 (derivative of the inner function 2x+1) is the single most common lost mark on this question type."},
+  {id:22, section:"Differentiation Rules", front:"Differentiate y = x²·sin(x) using the product rule.", back:"u=x², v=sin(x)\ndy/dx = x²cos(x) + 2x·sin(x)", trap:"Keep u and v clearly labelled on paper — mixing them up under time pressure is a common source of sign/order errors."},
+  {id:23, section:"Differentiation Rules", front:"Differentiate y = x/(x+1) using the quotient rule.", back:"u=x, v=x+1, u'=1, v'=1\ndy/dx = [(x+1)(1) − x(1)] / (x+1)² = 1/(x+1)²", trap:"After applying the rule, always try to simplify the numerator fully — leaving it unsimplified can cost a mark even if the method is correct."},
+
+  // --- Differentiating Trig Functions ---
+  {id:24, section:"Differentiating Trig", front:"State d/dx(sin x) and d/dx(cos x).", back:"d/dx(sinx) = cosx\nd/dx(cosx) = −sinx", trap:"These results are ONLY valid when x is measured in RADIANS. If a question uses degrees, you must convert first."},
+  {id:25, section:"Differentiating Trig", front:"State d/dx(tan x).", back:"d/dx(tanx) = sec²x", trap:"Sec²x is often mis-simplified — remember sec x = 1/cos x, so sec²x = 1/cos²x, NOT 1/cosx²."},
+  {id:26, section:"Differentiating Trig", front:"Differentiate y = sin(3x) using the chain rule.", back:"dy/dx = 3cos(3x)", trap:"Classic error: writing cos(3x) without the ×3 — always ask 'what's the derivative of the inside function?'"},
+  {id:27, section:"Differentiating Trig", front:"Differentiate y = cos²(x) (i.e. (cosx)²).", back:"Treat as chain rule: y=(cosx)², dy/dx = 2cosx × (−sinx) = −2sinx cosx  (= −sin(2x) using double angle)", trap:"Students often try to differentiate cos²x as if it were cos(x²) — read notation carefully, cos²x means (cosx)²."},
+  {id:28, section:"Differentiating Trig", front:"Differentiate y = sin(2x)cos(x) using the product rule.", back:"u=sin(2x), v=cosx\nu'=2cos(2x), v'=−sinx\ndy/dx = 2cos(2x)cosx − sin(2x)sinx", trap:"Two rules combined here — chain rule to get u', product rule for the overall structure. Losing track of which rule applies where is the main risk."},
+  {id:29, section:"Differentiating Trig", front:"Find the derivative of y = tan(x²).", back:"dy/dx = 2x·sec²(x²)  (chain rule: outer derivative sec²(...) × inner derivative 2x)", trap:"Don't confuse tan(x²) with (tanx)² — completely different functions and different derivatives."},
+
+  // --- Applications ---
+  {id:30, section:"Applications", front:"How do you find the gradient of a curve at a specific point x=a?", back:"Differentiate to get dy/dx, then substitute x=a into dy/dx to get the numerical gradient at that point.", trap:"Common slip: substituting x=a into the ORIGINAL equation y=f(x) instead of into dy/dx."},
+  {id:31, section:"Applications", front:"Equation of the tangent to a curve at point (a, f(a)) — what do you need and what's the formula?", back:"Need: gradient m = f'(a), and point (a, f(a)).\nEquation: y − f(a) = f'(a)(x − a)", trap:"Make sure you substitute a into the ORIGINAL function for the y-coordinate, and into the DERIVATIVE for the gradient — don't mix these up."},
+  {id:32, section:"Applications", front:"How is the normal's gradient related to the tangent's gradient at the same point?", back:"Normal gradient = −1/(tangent gradient), i.e. they are negative reciprocals of each other (perpendicular lines).", trap:"If the tangent gradient is 0 (horizontal), the normal is a VERTICAL line x=a — the formula −1/0 breaks down, so state it as x=a directly."},
+  {id:33, section:"Applications", front:"How do you find stationary points of a curve y=f(x)?", back:"Set dy/dx = 0 and solve for x. Substitute back into y=f(x) to find the corresponding y-coordinates.", trap:"Finding x is not the final answer — the question usually wants full coordinates (x,y), and forgetting to substitute back is a common lost mark."},
+  {id:34, section:"Applications", front:"How do you classify a stationary point as max, min, or point of inflection using the second derivative?", back:"Find d²y/dx² and substitute the x-value.\nIf d²y/dx² < 0 → maximum\nIf d²y/dx² > 0 → minimum\nIf d²y/dx² = 0 → inconclusive, must check gradient either side", trap:"When d²y/dx²=0, you CANNOT conclude it's a point of inflection automatically — you must test the sign of dy/dx just before and after the point."},
+  {id:35, section:"Applications", front:"Rates of change: if V is volume and t is time, what does dV/dt represent, and how do you typically find it via chain rule?", back:"dV/dt represents the rate of change of volume with respect to time. Often found via: dV/dt = dV/dr × dr/dt (chain rule linking volume to radius to time), when V is only given in terms of r.", trap:"Connected rates problems are almost always a chain-rule set-up — if you're given two separate rates, look for a variable that links them (like r here)."},
+
+  // --- Mixed / Synoptic ---
+  {id:36, section:"Mixed / Synoptic", front:"Find the stationary points of y = sinx + cosx for 0 ≤ x < 2π. Outline the method combining trig identity + differentiation.", back:"Method: dy/dx = cosx − sinx = 0 → tanx = 1 → x = π/4, 5π/4.\n(Alternative faster route: rewrite y = √2 sin(x+π/4) first, then stationary points occur at x+π/4 = π/2, 3π/2.)", trap:"The R sin(θ+α) route is often faster and safer than direct differentiation + solving trig equation — recognise when to use it."},
+  {id:37, section:"Mixed / Synoptic", front:"A curve is y = 4sinx − 3cosx. Find its maximum value and the smallest positive x where it occurs.", back:"R = √(4²+3²) = 5, tanα = 3/4 → α = 36.87°\ny = 5sin(x − 36.87°) [note the − since it's 4sinx − 3cosx]\nMax value = 5, occurring when x − 36.87° = 90° → x = 126.87°", trap:"Because the second term is SUBTRACTED (−3cosx), the R sin(θ−α) form is used, not R sin(θ+α) — sign of α flips accordingly."},
+  {id:38, section:"Mixed / Synoptic", front:"Given h(t) = 10 + 6sin(t) − 8cos(t) models a Ferris wheel height, find the maximum height and the rate of change of height at the moment it's rising fastest.", back:"R = √(6²+8²) = 10, so h(t) = 10 + 10sin(t−α) where tanα=8/6\nMax height = 10+10 = 20\nRate of change is fastest where h'(t) is maximum — this occurs at the point where h(t) itself crosses its midline (10), since h'(t) = 10cos(t−α) which peaks when sin(t-α)=0.", trap:"'Rising fastest' means MAXIMUM derivative, not maximum height — a very common synoptic confusion between a function and its rate of change."},
+  {id:39, section:"Mixed / Synoptic", front:"Explain, conceptually, why Trigonometry (radians) must be secure before starting Differentiation of trig functions.", back:"All standard trig derivatives (d/dx sinx = cosx, etc.) are only valid in radians — they are derived using the small-angle approximation sinθ≈θ, which only holds in radian measure. If a student isn't fluent converting degrees↔radians or applying double/compound angle identities to simplify expressions first, they will make silent numerical/algebraic errors throughout the differentiation topic.", trap:"This is a conceptual card, not a calculation — the exam rewards recognising WHY radians matter, e.g. in 'explain' or 'show that' style questions."},
+  {id:40, section:"Mixed / Synoptic", front:"Full worked approach: 'Show that the maximum value of f(x) = 5sin(2x) + 12cos(2x) is 13, and find the smallest positive value of x at which it occurs.'", back:"Step 1: R = √(5²+12²) = 13\nStep 2: tanα = 12/5 → α = 67.38°\nStep 3: f(x) = 13 sin(2x + 67.38°), so max value = 13 ✓ (shown)\nStep 4: Max occurs when 2x+67.38° = 90° → 2x = 22.62° → x = 11.31°", trap:"Because the angle inside is 2x (not x), you must divide by 2 at the very end when solving for x — forgetting this is the #1 error on 'R sin(nx+α)' style questions."}
+];
+
+const SECTIONS = ["All", ...Array.from(new Set(CARDS.map(c => c.section)))];
+let activeSection = "All";
+let deck = [];
+let idx = 0;
+let flipped = false;
+
+let progress = {};
+try {
+  const saved = localStorage.getItem('diffTrigProgress');
+  if (saved) progress = JSON.parse(saved);
+} catch(e) { progress = {}; }
+
+function saveProgress() {
+  try { localStorage.setItem('diffTrigProgress', JSON.stringify(progress)); } catch(e) {}
+}
+
+function buildTabs() {
+  const tabsEl = document.getElementById('tabs');
+  tabsEl.innerHTML = '';
+  SECTIONS.forEach(s => {
+    const btn = document.createElement('div');
+    btn.className = 'tab' + (s === activeSection ? ' active' : '');
+    btn.textContent = s;
+    btn.onclick = () => { activeSection = s; rebuildDeck(); };
+    tabsEl.appendChild(btn);
+  });
+}
+
+function rebuildDeck() {
+  deck = activeSection === "All" ? [...CARDS] : CARDS.filter(c => c.section === activeSection);
+  idx = 0;
+  flipped = false;
+  buildTabs();
+  renderCard();
+  renderStats();
+}
+
+function renderStats() {
+  const scope = activeSection === "All" ? CARDS : CARDS.filter(c => c.section === activeSection);
+  let know = 0, review = 0, unseen = 0;
+  scope.forEach(c => {
+    const st = progress[c.id];
+    if (st === 'know') know++;
+    else if (st === 'review') review++;
+    else unseen++;
+  });
+  document.getElementById('knowCount').textContent = know;
+  document.getElementById('reviewCount').textContent = review;
+  document.getElementById('unseenCount').textContent = unseen;
+  const total = scope.length || 1;
+  document.getElementById('progressFill').style.width = (know/total*100) + '%';
+}
+
+function renderCard() {
+  if (deck.length === 0) return;
+  const card = deck[idx];
+  document.getElementById('frontTag').textContent = card.section;
+  document.getElementById('frontText').textContent = card.front;
+  document.getElementById('backText').textContent = card.back;
+  const trapBox = document.getElementById('trapBox');
+  if (card.trap) {
+    trapBox.style.display = 'block';
+    document.getElementById('trapText').textContent = card.trap;
+  } else {
+    trapBox.style.display = 'none';
+  }
+  document.getElementById('counter').textContent = (idx+1) + ' / ' + deck.length;
+  document.getElementById('flipCard').classList.remove('flipped');
+  flipped = false;
+}
+
+document.getElementById('flipCard').addEventListener('click', () => {
+  flipped = !flipped;
+  document.getElementById('flipCard').classList.toggle('flipped', flipped);
+});
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  idx = (idx + 1) % deck.length;
+  renderCard();
+});
+document.getElementById('prevBtn').addEventListener('click', () => {
+  idx = (idx - 1 + deck.length) % deck.length;
+  renderCard();
+});
+document.getElementById('shuffleBtn').addEventListener('click', () => {
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  idx = 0;
+  renderCard();
+});
+document.getElementById('btnKnow').addEventListener('click', () => {
+  progress[deck[idx].id] = 'know';
+  saveProgress();
+  renderStats();
+  idx = (idx + 1) % deck.length;
+  renderCard();
+});
+document.getElementById('btnReview').addEventListener('click', () => {
+  progress[deck[idx].id] = 'review';
+  saveProgress();
+  renderStats();
+  idx = (idx + 1) % deck.length;
+  renderCard();
+});
+document.getElementById('resetLink').addEventListener('click', () => {
+  if (confirm('Reset all progress for this deck?')) {
+    progress = {};
+    saveProgress();
+    renderStats();
+  }
+});
+
+rebuildDeck();
+</script>
+</body>
+</html>

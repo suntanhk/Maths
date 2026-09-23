@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Differentiation & Trig Modelling — Mock Paper</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-card: #161b22;
+    --bg-ms: #1c2333;
+    --border: #30363d;
+    --teal: #2dd4bf;
+    --purple: #a78bfa;
+    --text: #e6edf3;
+    --text-dim: #8b949e;
+    --trap: #f97583;
+    --correct: #2dd4bf;
+    --incorrect: #f0883e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 16px;
+    padding-bottom: 60px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 18px;
+    text-align: center;
+    margin: 8px 0 2px;
+    background: linear-gradient(90deg, var(--teal), var(--purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .subtitle { text-align: center; color: var(--text-dim); font-size: 12.5px; margin-bottom: 6px; }
+  .meta-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+
+  .score-panel {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    padding: 10px 0 14px;
+    z-index: 5;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 18px;
+  }
+  .score-bar-wrap {
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .score-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--purple));
+    transition: width 0.3s;
+  }
+  .score-text { text-align: center; font-size: 13px; color: var(--text-dim); }
+  .score-text b { color: var(--text); }
+
+  .section-header {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--purple);
+    margin: 26px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .question-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .q-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .q-num { font-size: 12.5px; color: var(--text-dim); font-weight: 600; }
+  .q-marks { font-size: 11.5px; color: var(--purple); }
+  .q-text { font-size: 15px; line-height: 1.55; white-space: pre-line; margin-bottom: 12px; }
+
+  .reveal-btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--teal);
+    background: rgba(45,212,191,0.08);
+    color: var(--teal);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .mark-scheme {
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: var(--bg-ms);
+    border-radius: 8px;
+    border-left: 3px solid var(--teal);
+    display: none;
+  }
+  .mark-scheme.shown { display: block; }
+  .ms-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--teal); margin-bottom: 6px; }
+  .ms-text { font-size: 13.5px; line-height: 1.6; white-space: pre-line; }
+  .trap-line {
+    margin-top: 10px;
+    padding: 8px 10px;
+    border-left: 3px solid var(--trap);
+    background: rgba(249,117,131,0.08);
+    border-radius: 6px;
+    font-size: 12px;
+    color: #ffb3ba;
+  }
+  .trap-line b { color: var(--trap); }
+
+  .self-mark {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .sm-btn {
+    flex: 1;
+    padding: 9px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+  }
+  .sm-btn.correct.active { border-color: var(--correct); color: var(--correct); background: rgba(45,212,191,0.1); }
+  .sm-btn.incorrect.active { border-color: var(--incorrect); color: var(--incorrect); background: rgba(240,136,62,0.1); }
+
+  .reset-link {
+    display: block;
+    text-align: center;
+    margin-top: 26px;
+    color: var(--text-dim);
+    font-size: 11.5px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<h1>Differentiation & Trigonometry / Modelling</h1>
+<div class="subtitle">Mock Paper — Edexcel Pure Year 1 Style</div>
+<div class="meta-row"><span>12 Questions</span><span id="totalMarksLabel">Total: — marks</span><span>Suggested time: 55 min</span></div>
+
+<div class="score-panel">
+  <div class="score-text">Marked so far: <b id="scoreEarned">0</b> / <b id="scoreTotal">0</b></div>
+  <div class="score-bar-wrap"><div class="score-bar-fill" id="scoreFill" style="width:0%"></div></div>
+</div>
+
+<div id="paperRoot"></div>
+
+<div class="reset-link" id="resetLink">Reset marking for this paper</div>
+
+<script>
+const QUESTIONS = [
+  {
+    id: 1, section: "Section A — Trigonometry", marks: 4,
+    q: "Express 8cosθ − 15sinθ in the form Rcos(θ+α), where R > 0 and 0° < α < 90°. Give α to 2 d.p.",
+    ms: "R = √(8²+15²) = √289 = 17  (1 mark)\ntanα = 15/8  →  α = 61.93°  (2 marks: correct ratio, correct angle)\nSo 8cosθ − 15sinθ = 17cos(θ + 61.93°)  (1 mark, final form stated)",
+    trap: "Because the expansion of Rcos(θ+α) = Rcosθcosα − Rsinθsinα, matching −15sinθ means +sinα term is positive here — always expand your target form first to fix the correct sign convention before matching coefficients."
+  },
+  {
+    id: 2, section: "Section A — Trigonometry", marks: 3,
+    q: "Using the identity for cos(2A), show that cos(2A) = 1 − 2sin²A.",
+    ms: "cos(2A) = cos²A − sin²A  (1 mark, correct starting identity)\n= (1 − sin²A) − sin²A   [using cos²A = 1 − sin²A]  (1 mark)\n= 1 − 2sin²A  (1 mark, shown)",
+    trap: "'Show that' questions require every algebraic step written out — jumping straight to the answer loses method marks even if correct."
+  },
+  {
+    id: 3, section: "Section A — Trigonometry", marks: 5,
+    q: "The height of a bridge cable above a river, h metres, t hours after midnight, is modelled by h(t) = 12 + 5sin(t) − 12cos(t), for 0 ≤ t < 24. Write h(t) in the form 12 + Rsin(t−α), stating R and α (to 2 d.p.), and hence find the maximum height.",
+    ms: "R = √(5²+12²) = 13  (1 mark)\ntanα = 12/5 → α = 67.38°  (2 marks: ratio + value)\nh(t) = 12 + 13sin(t − 67.38°)  (1 mark)\nMaximum height = 12 + 13 = 25 m  (1 mark)",
+    trap: "The subtraction sign (−12cos t) means the form must be Rsin(t−α), not Rsin(t+α) — check the sign of the cos term before deciding the form."
+  },
+  {
+    id: 4, section: "Section A — Trigonometry", marks: 4,
+    q: "Solve 7sin(θ) + 24cos(θ) = 15 for 0° ≤ θ < 360°. (You may leave R and α from a previous working, or recalculate: R=25, α=73.74°.)",
+    ms: "7sinθ+24cosθ = 25sin(θ+73.74°) = 15  (1 mark, correct setup)\nsin(θ+73.74°) = 0.6\nθ+73.74° = 36.87° or 143.13° (+360° as needed)  (1 mark each valid solution before adjusting range)\nθ+73.74° = 36.87° → θ = −36.87° → +360° = 323.13°\nθ+73.74° = 143.13° → θ = 69.39°\nSolutions: θ = 69.39°, 323.13°  (1 mark, correct final values in range)",
+    trap: "When the first solution for θ comes out negative, add 360° before discarding it — a very common way to lose a valid solution."
+  },
+  {
+    id: 5, section: "Section B — Differentiation", marks: 3,
+    q: "Differentiate y = (3x² − 1)⁴ with respect to x.",
+    ms: "Let u = 3x²−1, y = u⁴\ndy/dx = 4u³ × du/dx = 4(3x²−1)³ × 6x  (2 marks: correct structure + correct du/dx)\n= 24x(3x²−1)³  (1 mark, simplified)",
+    trap: "Forgetting to multiply by du/dx = 6x (only writing 4(3x²−1)³) is the single most common chain rule error at this level."
+  },
+  {
+    id: 6, section: "Section B — Differentiation", marks: 4,
+    q: "Differentiate y = x³sin(2x) with respect to x, using the product rule.",
+    ms: "u = x³, v = sin(2x)\nu' = 3x², v' = 2cos(2x)  (2 marks: correct u', correct v' including chain rule on sin(2x))\ndy/dx = u'v + uv' = 3x²sin(2x) + 2x³cos(2x)  (2 marks: correct product rule structure + correct final expression)",
+    trap: "v' requires the chain rule inside the product rule (derivative of sin(2x) is 2cos(2x), not cos(2x)) — a very common compound error."
+  },
+  {
+    id: 7, section: "Section B — Differentiation", marks: 4,
+    q: "Differentiate y = cos(x) / (x+2) with respect to x, using the quotient rule.",
+    ms: "u = cosx, v = x+2\nu' = −sinx, v' = 1  (1 mark)\ndy/dx = [v·u' − u·v'] / v² = [(x+2)(−sinx) − cosx(1)] / (x+2)²  (2 marks: correct structure)\n= [−(x+2)sinx − cosx] / (x+2)²  (1 mark, simplified)",
+    trap: "Sign errors are extremely common in the quotient rule numerator — double-check the order is v·u' MINUS u·v', not the reverse."
+  },
+  {
+    id: 8, section: "Section B — Differentiation", marks: 5,
+    q: "Find the coordinates of the stationary points of y = 2x³ − 9x² + 12x + 3, and determine the nature of each using the second derivative.",
+    ms: "dy/dx = 6x² − 18x + 12 = 0  →  x² − 3x + 2 = 0  →  (x−1)(x−2) = 0  →  x = 1, 2  (2 marks)\nAt x=1: y = 2−9+12+3 = 8  →  (1, 8)\nAt x=2: y = 16−36+24+3 = 7  →  (2, 7)  (1 mark, both coordinates correct)\nd²y/dx² = 12x − 18\nAt x=1: 12−18 = −6 < 0 → maximum  (1 mark)\nAt x=2: 24−18 = 6 > 0 → minimum  (1 mark)",
+    trap: "Don't stop at finding x-values — the question (and mark scheme) usually requires full (x,y) coordinates plus a stated classification (max/min), not just 'positive/negative'."
+  },
+  {
+    id: 9, section: "Section B — Differentiation", marks: 4,
+    q: "Find the equation of the tangent to the curve y = x² − 4x + 1 at the point where x = 3.",
+    ms: "At x=3: y = 9−12+1 = −2, so point is (3, −2)  (1 mark)\ndy/dx = 2x − 4, at x=3: gradient = 6−4 = 2  (1 mark)\nTangent: y − (−2) = 2(x − 3)  (1 mark, correct point-gradient form)\ny = 2x − 8  (1 mark, simplified)",
+    trap: "Substitute x=3 into the ORIGINAL equation for the y-coordinate and into the DERIVATIVE for the gradient — mixing these up is a very common error under time pressure."
+  },
+  {
+    id: 10, section: "Section C — Synoptic", marks: 6,
+    q: "A curve is defined by y = 5sin(x) + 12cos(x) for 0 ≤ x < 2π.\n(a) Express y in the form Rsin(x+α), stating R and α to 3 s.f. [3 marks]\n(b) Hence find the coordinates of the maximum point of the curve. [3 marks]",
+    ms: "(a) R = √(5²+12²) = 13  (1 mark)\ntanα = 12/5 → α = 1.176 rad (or 67.4°)  (2 marks: ratio + correct value, radians expected if x is unitless/implied radians)\ny = 13sin(x + 1.176)\n\n(b) Maximum value of y = 13  (1 mark)\nOccurs when x + 1.176 = π/2  →  x = π/2 − 1.176 = 0.395 (3 s.f.)  (2 marks: correct equation + correct x value)\nMaximum point: (0.395, 13)",
+    trap: "This question blends Trig (R-form) with implied calculus reasoning (finding where sin term = 1 is equivalent to a stationary point) — recognise you don't need to differentiate at all here; the R-form does the work directly."
+  },
+  {
+    id: 11, section: "Section C — Synoptic", marks: 5,
+    q: "Given f(x) = sin(2x) + cos(x) for 0 ≤ x < 2π, find dy/dx and hence find any stationary points where cos(x) = 0 satisfies the resulting equation. (You do not need to solve the full cubic — just verify cos(x)=0 gives valid solutions and state them.)",
+    ms: "f'(x) = 2cos(2x) − sin(x)  (2 marks: chain rule on sin(2x) correctly applied, correct derivative of cosx)\nUsing cos(2x) = 1−2sin²x: f'(x) = 2(1−2sin²x) − sinx = 2 − 4sin²x − sinx  (1 mark, substitution)\nSetting cosx = 0 directly: x = π/2, 3π/2  (1 mark each, both solutions in range)\nCheck these satisfy f'(x)=0 by substitution as required.",
+    trap: "This question tests whether Jody can move fluidly between cos(2x) identities and standard derivatives in the same problem — a classic synoptic paper structure combining Trig identities Autumn 2 content with Differentiation Spring 1 content."
+  },
+  {
+    id: 12, section: "Section C — Synoptic", marks: 4,
+    q: "Explain why, when differentiating y = sin(3x°) (with x in DEGREES), the standard result dy/dx = 3cos(3x) does NOT apply directly. What must be done first?",
+    ms: "The standard derivative rules (d/dx sinx = cosx, etc.) are derived assuming x is measured in radians  (1 mark, states the core reason)\nThis is because they rely on the small-angle approximation sinθ≈θ, which is only true when θ is in radians  (1 mark, explains why)\nTo differentiate correctly, first convert: 3x° = 3x×(π/180) radians, then apply chain rule with this conversion factor  (2 marks: correct conversion + correct method stated)",
+    trap: "This is a 'show understanding' question rather than a pure calculation — full marks require explaining WHY, not just stating the rule. This is exactly the conceptual link flagged earlier between the Trig and Differentiation topics."
+  }
+];
+
+const state = {};
+try {
+  const saved = localStorage.getItem('diffTrigMockPaper');
+  if (saved) Object.assign(state, JSON.parse(saved));
+} catch(e) {}
+
+function saveState() {
+  try { localStorage.setItem('diffTrigMockPaper', JSON.stringify(state)); } catch(e) {}
+}
+
+function totalMarks() {
+  return QUESTIONS.reduce((sum, q) => sum + q.marks, 0);
+}
+
+function earnedMarks() {
+  let sum = 0;
+  QUESTIONS.forEach(q => {
+    if (state[q.id] === 'correct') sum += q.marks;
+  });
+  return sum;
+}
+
+function render() {
+  const root = document.getElementById('paperRoot');
+  root.innerHTML = '';
+  let currentSection = null;
+
+  QUESTIONS.forEach(q => {
+    if (q.section !== currentSection) {
+      currentSection = q.section;
+      const h = document.createElement('div');
+      h.className = 'section-header';
+      h.textContent = currentSection;
+      root.appendChild(h);
+    }
+
+    const card = document.createElement('div');
+    card.className = 'question-card';
+
+    const revealed = !!state[q.id + '_revealed'];
+    const mark = state[q.id];
+
+    card.innerHTML = `
+      <div class="q-top">
+        <span class="q-num">Question ${q.id}</span>
+        <span class="q-marks">[${q.marks} marks]</span>
+      </div>
+      <div class="q-text">${q.q}</div>
+      <button class="reveal-btn" data-id="${q.id}">${revealed ? 'Hide mark scheme' : 'Show mark scheme'}</button>
+      <div class="mark-scheme ${revealed ? 'shown' : ''}" id="ms-${q.id}">
+        <div class="ms-label">Mark Scheme</div>
+        <div class="ms-text">${q.ms}</div>
+        <div class="trap-line"><b>⚠ Examiner note:</b> ${q.trap}</div>
+        <div class="self-mark">
+          <button class="sm-btn correct ${mark==='correct'?'active':''}" data-id="${q.id}" data-val="correct">✓ Got it right</button>
+          <button class="sm-btn incorrect ${mark==='incorrect'?'active':''}" data-id="${q.id}" data-val="incorrect">✗ Needs work</button>
+        </div>
+      </div>
+    `;
+    root.appendChild(card);
+  });
+
+  document.querySelectorAll('.reveal-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-id');
+      state[id + '_revealed'] = !state[id + '_revealed'];
+      saveState();
+      render();
+    });
+  });
+
+  document.querySelectorAll('.sm-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-id');
+      const val = btn.getAttribute('data-val');
+      state[id] = (state[id] === val) ? null : val;
+      saveState();
+      render();
+      updateScore();
+    });
+  });
+
+  updateScore();
+}
+
+function updateScore() {
+  const total = totalMarks();
+  const earned = earnedMarks();
+  document.getElementById('scoreTotal').textContent = total;
+  document.getElementById('scoreEarned').textContent = earned;
+  document.getElementById('totalMarksLabel').textContent = 'Total: ' + total + ' marks';
+  document.getElementById('scoreFill').style.width = (total ? (earned/total*100) : 0) + '%';
+}
+
+document.getElementById('resetLink').addEventListener('click', () => {
+  if (confirm('Reset all marking for this paper?')) {
+    Object.keys(state).forEach(k => delete state[k]);
+    saveState();
+    render();
+  }
+});
+
+render();
+</script>
+</body>
+</html>

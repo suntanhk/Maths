@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Trigonometry and Modelling — Illustrated Study Guide</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-card: #161b22;
+    --bg-panel: #1c2333;
+    --border: #30363d;
+    --teal: #2dd4bf;
+    --purple: #a78bfa;
+    --text: #e6edf3;
+    --text-dim: #8b949e;
+    --trap: #f97583;
+    --amber: #f0883e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 18px;
+    max-width: 720px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+  h1 {
+    font-size: 21px;
+    text-align: center;
+    margin: 10px 0 4px;
+    background: linear-gradient(90deg, var(--teal), var(--purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .subtitle { text-align: center; color: var(--text-dim); font-size: 13px; margin-bottom: 26px; }
+
+  .toc {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 28px;
+    font-size: 13.5px;
+  }
+  .toc-title { color: var(--purple); font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+  .toc a { color: var(--teal); text-decoration: none; display: block; margin: 4px 0; }
+
+  section { margin-bottom: 40px; }
+  .sec-num {
+    display: inline-block;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), var(--purple));
+    color: #0d1117;
+    text-align: center;
+    line-height: 26px;
+    font-weight: 700;
+    font-size: 13px;
+    margin-right: 8px;
+  }
+  h2 { font-size: 17px; margin: 0 0 14px; color: var(--text); }
+  h3 { font-size: 14.5px; color: var(--purple); margin: 20px 0 8px; }
+  p { font-size: 14.5px; color: var(--text); margin: 10px 0; }
+
+  .formula-box {
+    background: var(--bg-panel);
+    border-left: 3px solid var(--teal);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 15px;
+    color: var(--teal);
+    font-weight: 600;
+  }
+  .formula-box .note { display:block; color: var(--text-dim); font-weight: 400; font-size: 12.5px; margin-top: 4px; }
+
+  .diagram-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    margin: 16px 0;
+    text-align: center;
+  }
+  .diagram-caption { color: var(--text-dim); font-size: 12px; margin-top: 8px; }
+  svg { max-width: 100%; height: auto; }
+
+  .example-box {
+    background: rgba(167,139,250,0.07);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--purple);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 14px 0;
+  }
+  .example-box .ex-label { color: var(--purple); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .example-box p { margin: 6px 0; white-space: pre-line; font-size: 14px; }
+
+  .trap-box {
+    background: rgba(249,117,131,0.08);
+    border-left: 3px solid var(--trap);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 14px 0;
+    font-size: 13px;
+    color: #ffb3ba;
+  }
+  .trap-box b { color: var(--trap); }
+
+  .summary-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--teal);
+    border-radius: 14px;
+    padding: 20px;
+    margin-top: 10px;
+  }
+  .summary-panel h2 { color: var(--teal); }
+  .summary-panel ul { padding-left: 20px; margin: 0; }
+  .summary-panel li { margin-bottom: 10px; font-size: 14px; }
+  .summary-panel li b { color: var(--purple); }
+
+  hr.divider { border: none; border-top: 1px solid var(--border); margin: 34px 0; }
+</style>
+</head>
+<body>
+
+<h1>Trigonometry and Modelling</h1>
+<div class="subtitle">A Level Pure Maths (Edexcel) — Illustrated Study Guide</div>
+
+<div class="toc">
+  <div class="toc-title">Contents</div>
+  <a href="#s1">1. Why Radians?</a>
+  <a href="#s2">2. Key Features of the sin / cos Graphs</a>
+  <a href="#s3">3. Compound Angle Formulae</a>
+  <a href="#s4">4. Double Angle Formulae</a>
+  <a href="#s5">5. R sin(θ+α): The Core Modelling Tool</a>
+  <a href="#s6">6. Real-World Modelling: A Tide-Height Model</a>
+  <a href="#s7">Key Takeaways</a>
+</div>
+
+<section id="s1">
+  <h2><span class="sec-num">1</span>Why Radians?</h2>
+  <p>Degrees are an arbitrary human convention (splitting a circle into 360 equal parts), while a radian is defined directly from the circle's own geometry — as the angle for which the arc length equals the radius. This is exactly why every standard calculus result (like d/dx(sinθ) = cosθ) only holds in radians: their derivations rely on the approximation sinθ ≈ θ for small θ, which is only accurate in radian measure.</p>
+
+  <div class="formula-box">
+    radians = degrees × (π / 180)
+    <span class="note">e.g. 180° = π rad, 90° = π/2 rad, 60° = π/3 rad</span>
+  </div>
+
+  <div class="diagram-box">
+    <svg id="unitCircleSvg" viewBox="0 0 320 320"></svg>
+    <div class="diagram-caption">The unit circle, with common angles labelled in both degrees and radians</div>
+  </div>
+
+  <div class="trap-box"><b>⚠ Common mistake:</b> when using the arc length formula s = rθ or the sector area formula A = ½r²θ, if the question gives an angle in degrees, it must be converted to radians first — otherwise the answer is out by a factor of (180/π).</div>
+</section>
+
+<section id="s2">
+  <h2><span class="sec-num">2</span>Key Features of the sin / cos Graphs</h2>
+  <p>Both sinθ and cosθ are wave-shaped graphs with period 2π and amplitude 1 (maximum value 1, minimum value −1). The two curves are identical in shape, except cosθ is "shifted earlier" by π/2 compared to sinθ — in other words, cosθ = sin(θ + π/2).</p>
+
+  <div class="diagram-box">
+    <svg id="sinCosSvg" viewBox="0 0 500 260"></svg>
+    <div class="diagram-caption">sinθ (teal) and cosθ (purple) plotted over 0 to 2π</div>
+  </div>
+
+  <p>A few key coordinates are worth memorising, since they act as reference points when solving trig equations:</p>
+  <div class="example-box">
+    <div class="ex-label">Key coordinates</div>
+    <p>sinθ: maximum at θ=π/2 (value=1), minimum at θ=3π/2 (value=−1), zero at θ=0, π, 2π
+cosθ: maximum at θ=0, 2π (value=1), minimum at θ=π (value=−1), zero at θ=π/2, 3π/2</p>
+  </div>
+</section>
+
+<section id="s3">
+  <h2><span class="sec-num">3</span>Compound Angle Formulae</h2>
+  <p>These formulae let us break down the trig function of a sum or difference of two angles into a combination of trig functions of the individual angles. They form the basis for the double angle formulae and the R sin(θ+α) technique that follow, so understanding the logic matters more than pure memorisation.</p>
+
+  <div class="formula-box">
+    sin(A ± B) = sinA cosB ± cosA sinB
+    <span class="note">The sign in the sin expansion matches the sign in the original expression</span>
+  </div>
+  <div class="formula-box">
+    cos(A ± B) = cosA cosB ∓ sinA sinB
+    <span class="note">Note: the sign in the cos expansion is the OPPOSITE of the original expression!</span>
+  </div>
+  <div class="formula-box">
+    tan(A ± B) = (tanA ± tanB) / (1 ∓ tanA tanB)
+  </div>
+
+  <div class="trap-box"><b>⚠ Common mistake:</b> the middle sign in cos(A+B) is MINUS, and the middle sign in cos(A−B) is PLUS — the exact opposite pattern to sin. This is very easy to mix up; it's worth writing the formula out on scratch paper each time before using it.</div>
+
+  <div class="example-box">
+    <div class="ex-label">Worked example</div>
+    <p>Find the exact value of sin75° (using sin75° = sin(45°+30°))
+sin(45°+30°) = sin45°cos30° + cos45°sin30°
+= (√2/2)(√3/2) + (√2/2)(1/2)
+= (√6 + √2) / 4</p>
+  </div>
+</section>
+
+<section id="s4">
+  <h2><span class="sec-num">4</span>Double Angle Formulae</h2>
+  <p>Substituting B=A into the compound angle formulae (i.e. A+A=2A) derives the double angle formulae. This is the best example of "understanding the derivation beats pure memorisation".</p>
+
+  <div class="formula-box">
+    sin(2A) = 2 sinA cosA
+  </div>
+  <div class="formula-box">
+    cos(2A) = cos²A − sin²A = 2cos²A − 1 = 1 − 2sin²A
+    <span class="note">All three forms need to be familiar — exam questions often specify which form to use in a proof</span>
+  </div>
+  <div class="formula-box">
+    tan(2A) = 2tanA / (1 − tan²A)
+  </div>
+
+  <div class="example-box">
+    <div class="ex-label">Worked example</div>
+    <p>Simplify: 2sin(3x)cos(3x)
+Using sin(2A)=2sinAcosA with A=3x:
+2sin(3x)cos(3x) = sin(6x)</p>
+  </div>
+</section>
+
+<section id="s5">
+  <h2><span class="sec-num">5</span>R sin(θ+α): The Core Modelling Tool</h2>
+  <p>This is the single most important technique in the whole Trigonometry and Modelling topic. When we meet an expression like a sinθ + b cosθ — two trig functions added together — we can rewrite it as a "single wave" in the form R sin(θ+α). This immediately reveals the amplitude, the maximum/minimum values, and the phase shift.</p>
+
+  <h3>Deriving the formula</h3>
+  <p>Goal: a sinθ + b cosθ = R sin(θ+α). Expand the right-hand side first:</p>
+  <div class="formula-box">
+    R sin(θ+α) = R sinθ cosα + R cosθ sinα
+  </div>
+  <p>Comparing coefficients: the coefficient of sinθ gives a = R cosα; the coefficient of cosθ gives b = R sinα. Squaring both equations and adding:</p>
+  <div class="formula-box">
+    a² + b² = R²cos²α + R²sin²α = R²(cos²α+sin²α) = R²
+    <span class="note">So R = √(a² + b²)</span>
+  </div>
+  <p>Dividing the two equations eliminates R:</p>
+  <div class="formula-box">
+    tanα = b / a
+    <span class="note">Always check which quadrant (a,b) lies in, to make sure α falls in the correct range</span>
+  </div>
+
+  <div class="diagram-box">
+    <svg id="rsinSvg" viewBox="0 0 500 280"></svg>
+    <div class="diagram-caption">y = 3sinθ + 4cosθ and its equivalent form y = 5sin(θ+53.13°) are the exact same curve — R is the amplitude, α is the phase shift</div>
+  </div>
+
+  <p>Two key pieces of information can be read directly off the graph:</p>
+  <div class="example-box">
+    <div class="ex-label">Reading the graph</div>
+    <p>Maximum value = R (the highest point on the curve)
+Location of the maximum: θ + α = 90°, i.e. θ = 90° − α
+(because sin reaches its maximum value of 1 when its input is 90°, giving R×1 = R)</p>
+  </div>
+
+  <div class="trap-box"><b>⚠ Common mistake:</b> when asked for the θ where the maximum occurs, many students write θ=90° directly and forget to subtract α — the correct answer is θ = 90° − α (or in radians: θ = π/2 − α).</div>
+</section>
+
+<section id="s6">
+  <h2><span class="sec-num">6</span>Real-World Modelling: A Tide-Height Model</h2>
+  <p>Modelling questions typically apply the R sin(θ+α) technique to a real-world context — tide heights, Ferris wheel heights, daylight hours, and so on. The key is to simplify the given function into R sin(θ+α) form first; only then can questions about "maximum", "minimum", and "when it occurs" be answered.</p>
+
+  <div class="example-box">
+    <div class="ex-label">Worked scenario</div>
+    <p>The tide height h(t) (metres) in a bay, t hours after midnight, is modelled by:
+h(t) = 12 + 5sin(t) − 12cos(t), 0 ≤ t &lt; 24
+
+Step 1: simplify 5sin(t) − 12cos(t) into R sin(t−α) form
+R = √(5²+12²) = 13
+tanα = 12/5 → α = 67.38°
+So h(t) = 12 + 13sin(t − 67.38°)
+
+Step 2: answer the questions
+Maximum height = 12 + 13 = 25 metres
+This occurs when t − 67.38° = 90° (converting units as the question requires), giving t ≈ 2.74 hours, i.e. around 2:44 am</p>
+  </div>
+
+  <div class="diagram-box">
+    <svg id="tideSvg" viewBox="0 0 520 260"></svg>
+    <div class="diagram-caption">Tide height h(t) over 24 hours, showing the maximum, minimum, and the baseline (midline = 12)</div>
+  </div>
+
+  <div class="trap-box"><b>⚠ Common mistake:</b> the constant term (12 in this example) is NOT part of the amplitude R — it simply shifts the whole curve vertically. Many students mistakenly calculate the maximum as just "R" and forget to add the constant back in.</div>
+</section>
+
+<hr class="divider">
+
+<div class="summary-panel" id="s7">
+  <h2>📌 Key Takeaways</h2>
+  <ul>
+    <li><b>Radians underpin everything</b> — all standard trig derivative results only hold in radian measure, so always check the units before starting a question.</li>
+    <li><b>Learn the sign rules for compound angle formulae cold</b>: the sin expansion keeps the original sign; the cos expansion flips it.</li>
+    <li><b>There are three forms of cos(2A)</b> — choose the correct one based on what the question requires (e.g. eliminating sin² or cos²), rather than picking one at random.</li>
+    <li><b>R sin(θ+α) is the heart of this whole topic</b>: R = √(a²+b²), tanα = b/a (always check the quadrant). The moment you see "a sinθ + b cosθ", your first instinct should be "convert this to R sin(θ+α)".</li>
+    <li><b>Remember to subtract α when finding where the maximum occurs</b>: θ = 90° − α, not simply 90°.</li>
+    <li><b>In modelling questions, the constant term (vertical shift) is not part of the amplitude R</b> — maximum = constant + R, minimum = constant − R.</li>
+    <li><b>The link to Differentiation</b>: the R sin(θ+α) form often lets you read off the maximum/minimum directly without differentiating at all — recognising this shortcut in an exam saves significant time.</li>
+    <li><b>"Show that" questions require every algebraic step to be written out</b>, not just the final answer — method marks are earned through the steps.</li>
+  </ul>
+</div>
+
+<script>
+function svgEl(tag, attrs) {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for (const k in attrs) el.setAttribute(k, attrs[k]);
+  return el;
+}
+
+// ---------- Diagram 1: Unit circle with key angles ----------
+(function() {
+  const svg = document.getElementById('unitCircleSvg');
+  const cx = 160, cy = 160, r = 110;
+  svg.appendChild(svgEl('line', {x1:cx-r-20,y1:cy,x2:cx+r+20,y2:cy,stroke:'#30363d',['stroke-width']:1}));
+  svg.appendChild(svgEl('line', {x1:cx,y1:cy-r-20,x2:cx,y2:cy+r+20,stroke:'#30363d',['stroke-width']:1}));
+  svg.appendChild(svgEl('circle', {cx:cx,cy:cy,r:r,fill:'none',stroke:'#2dd4bf',['stroke-width']:2}));
+
+  const angles = [
+    {deg:0, rad:'0', label:'0°'},
+    {deg:30, rad:'π/6', label:'30°'},
+    {deg:45, rad:'π/4', label:'45°'},
+    {deg:60, rad:'π/3', label:'60°'},
+    {deg:90, rad:'π/2', label:'90°'},
+    {deg:180, rad:'π', label:'180°'},
+    {deg:270, rad:'3π/2', label:'270°'}
+  ];
+  angles.forEach(a => {
+    const rad = a.deg * Math.PI / 180;
+    const x = cx + r * Math.cos(rad);
+    const y = cy - r * Math.sin(rad);
+    svg.appendChild(svgEl('line', {x1:cx,y1:cy,x2:x,y2:y,stroke:'#a78bfa',['stroke-width']:1.5}));
+    const lx = cx + (r+28) * Math.cos(rad);
+    const ly = cy - (r+28) * Math.sin(rad);
+    const t1 = svgEl('text', {x:lx,y:ly-4,fill:'#e6edf3','font-size':'11','text-anchor':'middle'});
+    t1.textContent = a.label;
+    svg.appendChild(t1);
+    const t2 = svgEl('text', {x:lx,y:ly+10,fill:'#2dd4bf','font-size':'10','text-anchor':'middle'});
+    t2.textContent = a.rad;
+    svg.appendChild(t2);
+  });
+})();
+
+// ---------- Diagram 2: sin vs cos ----------
+(function() {
+  const svg = document.getElementById('sinCosSvg');
+  const w = 500, h = 260, midY = 130, amp = 90, marginL = 30, marginR = 20;
+  const plotW = w - marginL - marginR;
+  svg.appendChild(svgEl('line', {x1:marginL,y1:midY,x2:w-marginR,y2:midY,stroke:'#30363d'}));
+  svg.appendChild(svgEl('line', {x1:marginL,y1:20,x2:marginL,y2:h-20,stroke:'#30363d'}));
+
+  function pathFor(fn) {
+    let d = '';
+    for (let i = 0; i <= 200; i++) {
+      const t = i/200 * 2*Math.PI;
+      const x = marginL + (i/200) * plotW;
+      const y = midY - fn(t) * amp;
+      d += (i===0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1) + ' ';
+    }
+    return d;
+  }
+  svg.appendChild(svgEl('path', {d:pathFor(Math.sin), stroke:'#2dd4bf', ['stroke-width']:2.5, fill:'none'}));
+  svg.appendChild(svgEl('path', {d:pathFor(Math.cos), stroke:'#a78bfa', ['stroke-width']:2.5, fill:'none'}));
+
+  const marks = [{v:0,l:'0'},{v:0.5,l:'π/2'},{v:1,l:'π'},{v:1.5,l:'3π/2'},{v:2,l:'2π'}];
+  marks.forEach(m => {
+    const x = marginL + (m.v/2) * plotW;
+    const t = svgEl('text', {x:x,y:h-4,fill:'#8b949e','font-size':'11','text-anchor':'middle'});
+    t.textContent = m.l;
+    svg.appendChild(t);
+  });
+  const legend1 = svgEl('text', {x:w-100,y:30,fill:'#2dd4bf','font-size':'12'}); legend1.textContent = '— sinθ';
+  const legend2 = svgEl('text', {x:w-100,y:46,fill:'#a78bfa','font-size':'12'}); legend2.textContent = '— cosθ';
+  svg.appendChild(legend1); svg.appendChild(legend2);
+})();
+
+// ---------- Diagram 3: R sin(theta+alpha) ----------
+(function() {
+  const svg = document.getElementById('rsinSvg');
+  const w = 500, h = 280, midY = 160, marginL = 35, marginR = 20;
+  const plotW = w - marginL - marginR;
+  const R = 5, alphaRad = Math.atan2(4,3);
+  const scale = 22;
+
+  svg.appendChild(svgEl('line', {x1:marginL,y1:midY,x2:w-marginR,y2:midY,stroke:'#30363d'}));
+
+  let d = '';
+  for (let i = 0; i <= 300; i++) {
+    const theta = i/300 * 2*Math.PI;
+    const y = 3*Math.sin(theta) + 4*Math.cos(theta);
+    const x = marginL + (i/300) * plotW;
+    const py = midY - y*scale;
+    d += (i===0?'M':'L') + x.toFixed(1) + ',' + py.toFixed(1) + ' ';
+  }
+  svg.appendChild(svgEl('path', {d:d, stroke:'#2dd4bf', ['stroke-width']:2.5, fill:'none'}));
+
+  const maxY = midY - R*scale;
+  svg.appendChild(svgEl('line', {x1:marginL,y1:maxY,x2:w-marginR,y2:maxY, stroke:'#f0883e', ['stroke-dasharray']:'4,4'}));
+  const tmax = svgEl('text', {x:w-marginR-2,y:maxY-6,fill:'#f0883e','font-size':'11','text-anchor':'end'});
+  tmax.textContent = 'max = R = 5';
+  svg.appendChild(tmax);
+
+  const thetaAtMax = (Math.PI/2 - alphaRad + 2*Math.PI) % (2*Math.PI);
+  const peakX = marginL + (thetaAtMax/(2*Math.PI)) * plotW;
+  svg.appendChild(svgEl('circle', {cx:peakX, cy:maxY, r:4, fill:'#a78bfa'}));
+  const tpeak = svgEl('text', {x:peakX, y:maxY-14, fill:'#a78bfa', 'font-size':'11', 'text-anchor':'middle'});
+  tpeak.textContent = 'θ = 90°−α';
+  svg.appendChild(tpeak);
+
+  const cap = svgEl('text', {x:marginL, y:24, fill:'#e6edf3', 'font-size':'12'});
+  cap.textContent = 'y = 3sinθ + 4cosθ  ≡  y = 5sin(θ+53.13°)';
+  svg.appendChild(cap);
+})();
+
+// ---------- Diagram 4: tide model ----------
+(function() {
+  const svg = document.getElementById('tideSvg');
+  const w = 520, h = 260, midY = 150, marginL = 40, marginR = 20;
+  const plotW = w - marginL - marginR;
+  const scale = 6.5;
+  const baseline = 12;
+
+  function h_t(t) { return baseline + 13*Math.sin((t*15-67.38)*Math.PI/180); }
+
+  svg.appendChild(svgEl('line', {x1:marginL,y1:midY,x2:w-marginR,y2:midY,stroke:'#8b949e',['stroke-dasharray']:'3,3'}));
+  const baseLbl = svgEl('text', {x:marginR+5,y:midY-6,fill:'#8b949e','font-size':'10'});
+  baseLbl.textContent = 'baseline = 12';
+  svg.appendChild(baseLbl);
+
+  let d = '';
+  let maxVal = -999, maxT = 0, minVal = 999, minT = 0;
+  for (let i = 0; i <= 240; i++) {
+    const t = i/240 * 24;
+    const val = h_t(t);
+    if (val > maxVal) { maxVal = val; maxT = t; }
+    if (val < minVal) { minVal = val; minT = t; }
+    const x = marginL + (i/240) * plotW;
+    const y = midY - (val - baseline) * scale;
+    d += (i===0?'M':'L') + x.toFixed(1) + ',' + y.toFixed(1) + ' ';
+  }
+  svg.appendChild(svgEl('path', {d:d, stroke:'#2dd4bf', ['stroke-width']:2.5, fill:'none'}));
+
+  const maxX = marginL + (maxT/24)*plotW;
+  const maxY = midY - (maxVal-baseline)*scale;
+  svg.appendChild(svgEl('circle', {cx:maxX, cy:maxY, r:4, fill:'#f0883e'}));
+  const tmax = svgEl('text', {x:maxX, y:maxY-10, fill:'#f0883e', 'font-size':'10.5', 'text-anchor':'middle'});
+  tmax.textContent = 'max 25m';
+  svg.appendChild(tmax);
+
+  const minX = marginL + (minT/24)*plotW;
+  const minY = midY - (minVal-baseline)*scale;
+  svg.appendChild(svgEl('circle', {cx:minX, cy:minY, r:4, fill:'#a78bfa'}));
+  const tmin = svgEl('text', {x:minX, y:minY+16, fill:'#a78bfa', 'font-size':'10.5', 'text-anchor':'middle'});
+  tmin.textContent = 'min −1m';
+  svg.appendChild(tmin);
+
+  [0,6,12,18,24].forEach(hr => {
+    const x = marginL + (hr/24)*plotW;
+    const t = svgEl('text', {x:x,y:h-6,fill:'#8b949e','font-size':'10','text-anchor':'middle'});
+    t.textContent = hr + 'h';
+    svg.appendChild(t);
+  });
+})();
+</script>
+
+</body>
+</html>

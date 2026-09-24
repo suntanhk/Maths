@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Trigonometry and Modelling — 超詳細圖解筆記</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-card: #161b22;
+    --bg-panel: #1c2333;
+    --border: #30363d;
+    --teal: #2dd4bf;
+    --purple: #a78bfa;
+    --text: #e6edf3;
+    --text-dim: #8b949e;
+    --trap: #f97583;
+    --amber: #f0883e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 18px;
+    max-width: 720px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+  h1 {
+    font-size: 21px;
+    text-align: center;
+    margin: 10px 0 4px;
+    background: linear-gradient(90deg, var(--teal), var(--purple));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .subtitle { text-align: center; color: var(--text-dim); font-size: 13px; margin-bottom: 26px; }
+
+  .toc {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 28px;
+    font-size: 13.5px;
+  }
+  .toc-title { color: var(--purple); font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+  .toc a { color: var(--teal); text-decoration: none; display: block; margin: 4px 0; }
+
+  section { margin-bottom: 40px; }
+  .sec-num {
+    display: inline-block;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), var(--purple));
+    color: #0d1117;
+    text-align: center;
+    line-height: 26px;
+    font-weight: 700;
+    font-size: 13px;
+    margin-right: 8px;
+  }
+  h2 { font-size: 17px; margin: 0 0 14px; color: var(--text); }
+  h3 { font-size: 14.5px; color: var(--purple); margin: 20px 0 8px; }
+  p { font-size: 14.5px; color: var(--text); margin: 10px 0; }
+
+  .formula-box {
+    background: var(--bg-panel);
+    border-left: 3px solid var(--teal);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 14px 0;
+    font-size: 15px;
+    color: var(--teal);
+    font-weight: 600;
+  }
+  .formula-box .note { display:block; color: var(--text-dim); font-weight: 400; font-size: 12.5px; margin-top: 4px; }
+
+  .diagram-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    margin: 16px 0;
+    text-align: center;
+  }
+  .diagram-caption { color: var(--text-dim); font-size: 12px; margin-top: 8px; }
+  svg { max-width: 100%; height: auto; }
+
+  .example-box {
+    background: rgba(167,139,250,0.07);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--purple);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 14px 0;
+  }
+  .example-box .ex-label { color: var(--purple); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .example-box p { margin: 6px 0; white-space: pre-line; font-size: 14px; }
+
+  .trap-box {
+    background: rgba(249,117,131,0.08);
+    border-left: 3px solid var(--trap);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 14px 0;
+    font-size: 13px;
+    color: #ffb3ba;
+  }
+  .trap-box b { color: var(--trap); }
+
+  .summary-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--teal);
+    border-radius: 14px;
+    padding: 20px;
+    margin-top: 10px;
+  }
+  .summary-panel h2 { color: var(--teal); }
+  .summary-panel ul { padding-left: 20px; margin: 0; }
+  .summary-panel li { margin-bottom: 10px; font-size: 14px; }
+  .summary-panel li b { color: var(--purple); }
+
+  hr.divider { border: none; border-top: 1px solid var(--border); margin: 34px 0; }
+</style>
+</head>
+<body>
+
+<h1>Trigonometry and Modelling</h1>
+<div class="subtitle">A Level Pure Maths（Edexcel）— 超詳細圖解筆記</div>
+
+<div class="toc">
+  <div class="toc-title">目錄</div>
+  <a href="#s1">1. 為什麼要用弧度制（Radians）？</a>
+  <a href="#s2">2. sin / cos 圖形的關鍵特徵</a>
+  <a href="#s3">3. Compound Angle 加法公式</a>
+  <a href="#s4">4. Double Angle 二倍角公式</a>
+  <a href="#s5">5. R sin(θ+α)：建模的核心工具</a>
+  <a href="#s6">6. 實際建模應用：潮汐高度模型</a>
+  <a href="#s7">精要學習重點</a>
+</div>
+
+<section id="s1">
+  <h2><span class="sec-num">1</span>為什麼要用弧度制（Radians）？</h2>
+  <p>角度（degree）是人為訂出的單位（把一個圓分成 360 份），而弧度（radian）是用「弧長 = 半徑」時所對應的角度來定義——這是一個跟圓的幾何本質直接掛鉤的單位。這也是為什麼所有微積分公式（例如 d/dx(sinθ) = cosθ）只有在弧度制下才成立：這些公式的推導過程用到 sinθ ≈ θ（當 θ 很小時）這個近似，而這個近似只有在弧度制下才精確。</p>
+
+  <div class="formula-box">
+    弧度 = 角度 × (π / 180)
+    <span class="note">例如：180° = π rad，90° = π/2 rad，60° = π/3 rad</span>
+  </div>
+
+  <div class="diagram-box">
+    <svg id="unitCircleSvg" viewBox="0 0 320 320"></svg>
+    <div class="diagram-caption">單位圓上標示常見角度的度數與弧度對照</div>
+  </div>
+
+  <div class="trap-box"><b>⚠ 常見錯誤：</b>在使用弧長公式 s = rθ 或扇形面積公式 A = ½r²θ 時，若題目給的是角度，必須先轉換成弧度才能代入，否則答案會錯一個 (180/π) 倍數。</div>
+</section>
+
+<section id="s2">
+  <h2><span class="sec-num">2</span>sin / cos 圖形的關鍵特徵</h2>
+  <p>sinθ 和 cosθ 的圖形都是「週期為 2π」的波浪形，振幅（amplitude）都是 1（即最大值 1、最小值 −1）。兩者形狀完全相同，只是 cosθ 比 sinθ「提早」π/2 出現——也就是說 cosθ = sin(θ + π/2)。</p>
+
+  <div class="diagram-box">
+    <svg id="sinCosSvg" viewBox="0 0 500 260"></svg>
+    <div class="diagram-caption">sinθ（青色）與 cosθ（紫色）在 0 到 2π 之間的圖形比較</div>
+  </div>
+
+  <p>從圖中可以觀察到幾個關鍵座標點，這些是解三角方程時常用的「基準點」：</p>
+  <div class="example-box">
+    <div class="ex-label">關鍵座標</div>
+    <p>sinθ：最大值在 θ=π/2（值=1），最小值在 θ=3π/2（值=−1），θ=0, π, 2π 時為 0
+cosθ：最大值在 θ=0, 2π（值=1），最小值在 θ=π（值=−1），θ=π/2, 3π/2 時為 0</p>
+  </div>
+</section>
+
+<section id="s3">
+  <h2><span class="sec-num">3</span>Compound Angle 加法公式</h2>
+  <p>這組公式讓我們可以把「兩個角相加或相減」的三角函數，拆解成單一角的三角函數組合。這是後面 double angle 和 R sin(θ+α) 技巧的基礎，務必理解推導邏輯，而不是死記。</p>
+
+  <div class="formula-box">
+    sin(A ± B) = sinA cosB ± cosA sinB
+    <span class="note">sin 展開式的正負號跟原式一致</span>
+  </div>
+  <div class="formula-box">
+    cos(A ± B) = cosA cosB ∓ sinA sinB
+    <span class="note">注意：cos 展開式的正負號跟原式相反！</span>
+  </div>
+  <div class="formula-box">
+    tan(A ± B) = (tanA ± tanB) / (1 ∓ tanA tanB)
+  </div>
+
+  <div class="trap-box"><b>⚠ 常見錯誤：</b>cos(A+B) 展開後中間是「減號」，cos(A−B) 展開後中間是「加號」——這跟 sin 的規律剛好相反，非常容易搞混，建議每次用之前先在草稿紙上寫一次公式確認。</div>
+
+  <div class="example-box">
+    <div class="ex-label">例題</div>
+    <p>求 sin75° 的精確值（用 sin75° = sin(45°+30°)）
+sin(45°+30°) = sin45°cos30° + cos45°sin30°
+= (√2/2)(√3/2) + (√2/2)(1/2)
+= (√6 + √2) / 4</p>
+  </div>
+</section>
+
+<section id="s4">
+  <h2><span class="sec-num">4</span>Double Angle 二倍角公式</h2>
+  <p>把 compound angle 公式中的 B 換成 A（即 A+A=2A），就能推導出二倍角公式。這正是「理解推導比死記更牢固」的最佳示範。</p>
+
+  <div class="formula-box">
+    sin(2A) = 2 sinA cosA
+  </div>
+  <div class="formula-box">
+    cos(2A) = cos²A − sin²A = 2cos²A − 1 = 1 − 2sin²A
+    <span class="note">三個形式都要熟悉——考題常指定「用哪一個形式證明」</span>
+  </div>
+  <div class="formula-box">
+    tan(2A) = 2tanA / (1 − tan²A)
+  </div>
+
+  <div class="example-box">
+    <div class="ex-label">例題</div>
+    <p>化簡：2sin(3x)cos(3x)
+用 sin(2A)=2sinAcosA，令 A=3x：
+2sin(3x)cos(3x) = sin(6x)</p>
+  </div>
+</section>
+
+<section id="s5">
+  <h2><span class="sec-num">5</span>R sin(θ+α)：建模的核心工具</h2>
+  <p>這是整個 Trigonometry and Modelling 主題最重要的技巧。當我們遇到 a sinθ + b cosθ 這種「兩個三角函數相加」的表達式時，可以把它重寫成「單一個波浪」的形式 R sin(θ+α)——這樣就能直接看出振幅（amplitude）、最大/最小值、以及相位偏移（phase shift）。</p>
+
+  <h3>推導邏輯</h3>
+  <p>目標：a sinθ + b cosθ = R sin(θ+α)。先展開右邊：</p>
+  <div class="formula-box">
+    R sin(θ+α) = R sinθ cosα + R cosθ sinα
+  </div>
+  <p>比較係數：sinθ 的係數 a = R cosα；cosθ 的係數 b = R sinα。把這兩個方程平方相加：</p>
+  <div class="formula-box">
+    a² + b² = R²cos²α + R²sin²α = R²(cos²α+sin²α) = R²
+    <span class="note">所以 R = √(a² + b²)</span>
+  </div>
+  <p>兩式相除消去 R：</p>
+  <div class="formula-box">
+    tanα = b / a
+    <span class="note">務必檢查 (a,b) 所在象限，確保 α 落在正確範圍</span>
+  </div>
+
+  <div class="diagram-box">
+    <svg id="rsinSvg" viewBox="0 0 500 280"></svg>
+    <div class="diagram-caption">y = 3sinθ + 4cosθ 與其等價形式 y = 5sin(θ+53.13°) 是同一條曲線——R 是振幅，α 是相位偏移</div>
+  </div>
+
+  <p>從圖中可以直接讀出兩個關鍵資訊：</p>
+  <div class="example-box">
+    <div class="ex-label">如何讀圖</div>
+    <p>最大值 = R（圖中曲線的最高點）
+最大值出現的位置：θ + α = 90°，即 θ = 90° − α
+（因為 sin 函數在輸入為 90° 時達到最大值 1，此時整個表達式等於 R×1 = R）</p>
+  </div>
+
+  <div class="trap-box"><b>⚠ 常見錯誤：</b>求「最大值出現的 θ」時，很多學生會直接寫 θ=90°，忘記減去 α——正確答案是 θ = 90° − α（或用弧度：θ = π/2 − α）。</div>
+</section>
+
+<section id="s6">
+  <h2><span class="sec-num">6</span>實際建模應用：潮汐高度模型</h2>
+  <p>Modelling 題目通常會把 R sin(θ+α) 技巧套用在真實情境中，例如潮汐高度、摩天輪高度、日照時數變化等。這類題目的關鍵是：先把情境中給的函數化簡成 R sin(θ+α) 的形式，才能回答「最大值」「最小值」「何時發生」這類問題。</p>
+
+  <div class="example-box">
+    <div class="ex-label">情境例題</div>
+    <p>某海灣的潮汐高度 h(t)（米），t 為從午夜開始的小時數，模型為：
+h(t) = 12 + 5sin(t) − 12cos(t)，0 ≤ t &lt; 24
+
+第一步：化簡 5sin(t) − 12cos(t) 為 R sin(t−α) 形式
+R = √(5²+12²) = 13
+tanα = 12/5 → α = 67.38°
+所以 h(t) = 12 + 13sin(t − 67.38°)
+
+第二步：回答問題
+最大高度 = 12 + 13 = 25 米
+發生在 t − 67.38° = 90°（換算成弧度或保持角度制需視題目單位），解得 t ≈ 2.74 小時，即凌晨約 2:44</p>
+  </div>
+
+  <div class="diagram-box">
+    <svg id="tideSvg" viewBox="0 0 520 260"></svg>
+    <div class="diagram-caption">潮汐高度 h(t) 在 24 小時內的變化，標示最高點、最低點與基準線（水平中線 = 12）</div>
+  </div>
+
+  <div class="trap-box"><b>⚠ 常見錯誤：</b>常數項（例子中的 12）不屬於振幅 R 的一部分，它只是把整條曲線垂直往上平移——很多學生誤把最大值算成「R」而忘記加回常數項。</div>
+</section>
+
+<hr class="divider">
+
+<div class="summary-panel" id="s7">
+  <h2>📌 精要學習重點</h2>
+  <ul>
+    <li><b>弧度制是一切的前提</b>——所有標準三角函數微分公式只在弧度制下成立，做題前先確認單位。</li>
+    <li><b>Compound angle 公式的符號規則要背熟</b>：sin 展開式符號不變，cos 展開式符號相反。</li>
+    <li><b>Double angle 有三種 cos(2A) 形式</b>——依題目要求（例如要消去 sin² 還是 cos²）選擇正確形式，而不是隨便挑一個。</li>
+    <li><b>R sin(θ+α) 是整個主題的核心</b>：R = √(a²+b²)，tanα = b/a（務必檢查象限）。看到「a sinθ + b cosθ」型式，第一反應就該是「轉換成 R sin(θ+α)」。</li>
+    <li><b>最大值發生的位置要記得減去 α</b>：θ = 90° − α，而不是直接等於 90°。</li>
+    <li><b>建模題中的常數項（垂直平移）不算進振幅 R</b>——最大值 = 常數 + R，最小值 = 常數 − R。</li>
+    <li><b>與 Differentiation 的銜接</b>：R sin(θ+α) 形式常常可以直接讀出最大/最小值，不需要真的做微分——考試中辨認出這個「捷徑」能省下大量時間。</li>
+    <li><b>「Show that」題目一定要寫出每一步代數過程</b>，不能只寫最終答案，method marks 是靠步驟拿的。</li>
+  </ul>
+</div>
+
+<script>
+function svgEl(tag, attrs) {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for (const k in attrs) el.setAttribute(k, attrs[k]);
+  return el;
+}
+
+// ---------- Diagram 1: Unit circle with key angles ----------
+(function() {
+  const svg = document.getElementById('unitCircleSvg');
+  const cx = 160, cy = 160, r = 110;
+  svg.appendChild(svgEl('line', {x1:cx-r-20,y1:cy,x2:cx+r+20,y2:cy,stroke:'#30363d',['stroke-width']:1}));
+  svg.appendChild(svgEl('line', {x1:cx,y1:cy-r-20,x2:cx,y2:cy+r+20,stroke:'#30363d',['stroke-width']:1}));
+  svg.appendChild(svgEl('circle', {cx:cx,cy:cy,r:r,fill:'none',stroke:'#2dd4bf',['stroke-width']:2}));
+
+  const angles = [
+    {deg:0, rad:'0', label:'0°'},
+    {deg:30, rad:'π/6', label:'30°'},
+    {deg:45, rad:'π/4', label:'45°'},
+    {deg:60, rad:'π/3', label:'60°'},
+    {deg:90, rad:'π/2', label:'90°'},
+    {deg:180, rad:'π', label:'180°'},
+    {deg:270, rad:'3π/2', label:'270°'}
+  ];
+  angles.forEach(a => {
+    const rad = a.deg * Math.PI / 180;
+    const x = cx + r * Math.cos(rad);
+    const y = cy - r * Math.sin(rad);
+    svg.appendChild(svgEl('line', {x1:cx,y1:cy,x2:x,y2:y,stroke:'#a78bfa',['stroke-width']:1.5}));
+    const lx = cx + (r+28) * Math.cos(rad);
+    const ly = cy - (r+28) * Math.sin(rad);
+    const t1 = svgEl('text', {x:lx,y:ly-4,fill:'#e6edf3','font-size':'11','text-anchor':'middle'});
+    t1.textContent = a.label;
+    svg.appendChild(t1);
+    const t2 = svgEl('text', {x:lx,y:ly+10,fill:'#2dd4bf','font-size':'10','text-anchor':'middle'});
+    t2.textContent = a.rad;
+    svg.appendChild(t2);
+  });
+})();
+
+// ---------- Diagram 2: sin vs cos ----------
+(function() {
+  const svg = document.getElementById('sinCosSvg');
+  const w = 500, h = 260, midY = 130, amp = 90, marginL = 30, marginR = 20;
+  const plotW = w - marginL - marginR;
+  svg.appendChild(svgEl('line', {x1:marginL,y1:midY,x2:w-marginR,y2:midY,stroke:'#30363d'}));
+  svg.appendChild(svgEl('line', {x1:marginL,y1:20,x2:marginL,y2:h-20,stroke:'#30363d'}));
+
+  function pathFor(fn) {
+    let d = '';
+    for (let i = 0; i <= 200; i++) {
+      const t = i/200 * 2*Math.PI;
+      const x = marginL + (i/200) * plotW;
+      const y = midY - fn(t) * amp;
+      d += (i===0 ? 'M' : 'L') + x.toFixed(1) + ',' + y.toFixed(1) + ' ';
+    }
+    return d;
+  }
+  svg.appendChild(svgEl('path', {d:pathFor(Math.sin), stroke:'#2dd4bf', ['stroke-width']:2.5, fill:'none'}));
+  svg.appendChild(svgEl('path', {d:pathFor(Math.cos), stroke:'#a78bfa', ['stroke-width']:2.5, fill:'none'}));
+
+  const marks = [{v:0,l:'0'},{v:0.5,l:'π/2'},{v:1,l:'π'},{v:1.5,l:'3π/2'},{v:2,l:'2π'}];
+  marks.forEach(m => {
+    const x = marginL + (m.v/2) * plotW;
+    const t = svgEl('text', {x:x,y:h-4,fill:'#8b949e','font-size':'11','text-anchor':'middle'});
+    t.textContent = m.l;
+    svg.appendChild(t);
+  });
+  const legend1 = svgEl('text', {x:w-100,y:30,fill:'#2dd4bf','font-size':'12'}); legend1.textContent = '— sinθ';
+  const legend2 = svgEl('text', {x:w-100,y:46,fill:'#a78bfa','font-size':'12'}); legend2.textContent = '— cosθ';
+  svg.appendChild(legend1); svg.appendChild(legend2);
+})();
+
+// ---------- Diagram 3: R sin(theta+alpha) ----------
+(function() {
+  const svg = document.getElementById('rsinSvg');
+  const w = 500, h = 280, midY = 160, marginL = 35, marginR = 20;
+  const plotW = w - marginL - marginR;
+  const R = 5, alphaRad = Math.atan2(4,3);
+  const scale = 22;
+
+  svg.appendChild(svgEl('line', {x1:marginL,y1:midY,x2:w-marginR,y2:midY,stroke:'#30363d'}));
+
+  let d = '';
+  for (let i = 0; i <= 300; i++) {
+    const theta = i/300 * 2*Math.PI;
+    const y = 3*Math.sin(theta) + 4*Math.cos(theta);
+    const x = marginL + (i/300) * plotW;
+    const py = midY - y*scale;
+    d += (i===0?'M':'L') + x.toFixed(1) + ',' + py.toFixed(1) + ' ';
+  }
+  svg.appendChild(svgEl('path', {d:d, stroke:'#2dd4bf', ['stroke-width']:2.5, fill:'none'}));
+
+  // max value line
+  const maxY = midY - R*scale;
+  svg.appendChild(svgEl('line', {x1:marginL,y1:maxY,x2:w-marginR,y2:maxY, stroke:'#f0883e', ['stroke-dasharray']:'4,4'}));
+  const tmax = svgEl('text', {x:w-marginR-2,y:maxY-6,fill:'#f0883e','font-size':'11','text-anchor':'end'});
+  tmax.textContent = 'max = R = 5';
+  svg.appendChild(tmax);
+
+  // mark peak point
+  const thetaAtMax = (Math.PI/2 - alphaRad + 2*Math.PI) % (2*Math.PI);
+  const peakX = marginL + (thetaAtMax/(2*Math.PI)) * plotW;
+  svg.appendChild(svgEl('circle', {cx:peakX, cy:maxY, r:4, fill:'#a78bfa'}));
+  const tpeak = svgEl('text', {x:peakX, y:maxY-14, fill:'#a78bfa', 'font-size':'11', 'text-anchor':'middle'});
+  tpeak.textContent = 'θ = 90°−α';
+  svg.appendChild(tpeak);
+
+  const cap = svgEl('text', {x:marginL, y:24, fill:'#e6edf3', 'font-size':'12'});
+  cap.textContent = 'y = 3sinθ + 4cosθ  ≡  y = 5sin(θ+53.13°)';
+  svg.appendChild(cap);
+})();
+
+// ---------- Diagram 4: tide model ----------
+(function() {
+  const svg = document.getElementById('tideSvg');
+  const w = 520, h = 260, midY = 150, marginL = 40, marginR = 20;
+  const plotW = w - marginL - marginR;
+  const scale = 6.5;
+  const baseline = 12;
+
+  function h_t(t) { return baseline + 13*Math.sin((t*15-67.38)*Math.PI/180); }
+
+  svg.appendChild(svgEl('line', {x1:marginL,y1:midY,x2:w-marginR,y2:midY,stroke:'#8b949e',['stroke-dasharray']:'3,3'}));
+  const baseLbl = svgEl('text', {x:marginR+5,y:midY-6,fill:'#8b949e','font-size':'10'});
+  baseLbl.textContent = '基準線 = 12';
+  svg.appendChild(baseLbl);
+
+  let d = '';
+  let maxVal = -999, maxT = 0, minVal = 999, minT = 0;
+  for (let i = 0; i <= 240; i++) {
+    const t = i/240 * 24;
+    const val = h_t(t);
+    if (val > maxVal) { maxVal = val; maxT = t; }
+    if (val < minVal) { minVal = val; minT = t; }
+    const x = marginL + (i/240) * plotW;
+    const y = midY - (val - baseline) * scale;
+    d += (i===0?'M':'L') + x.toFixed(1) + ',' + y.toFixed(1) + ' ';
+  }
+  svg.appendChild(svgEl('path', {d:d, stroke:'#2dd4bf', ['stroke-width']:2.5, fill:'none'}));
+
+  const maxX = marginL + (maxT/24)*plotW;
+  const maxY = midY - (maxVal-baseline)*scale;
+  svg.appendChild(svgEl('circle', {cx:maxX, cy:maxY, r:4, fill:'#f0883e'}));
+  const tmax = svgEl('text', {x:maxX, y:maxY-10, fill:'#f0883e', 'font-size':'10.5', 'text-anchor':'middle'});
+  tmax.textContent = '最高 25m';
+  svg.appendChild(tmax);
+
+  const minX = marginL + (minT/24)*plotW;
+  const minY = midY - (minVal-baseline)*scale;
+  svg.appendChild(svgEl('circle', {cx:minX, cy:minY, r:4, fill:'#a78bfa'}));
+  const tmin = svgEl('text', {x:minX, y:minY+16, fill:'#a78bfa', 'font-size':'10.5', 'text-anchor':'middle'});
+  tmin.textContent = '最低 −1m';
+  svg.appendChild(tmin);
+
+  [0,6,12,18,24].forEach(hr => {
+    const x = marginL + (hr/24)*plotW;
+    const t = svgEl('text', {x:x,y:h-6,fill:'#8b949e','font-size':'10','text-anchor':'middle'});
+    t.textContent = hr + 'h';
+    svg.appendChild(t);
+  });
+})();
+</script>
+
+</body>
+</html>
